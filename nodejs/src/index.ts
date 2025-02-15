@@ -6,7 +6,13 @@ import loadCsvToDatabase from "./services/loadCsvToDatabase";
 
 import getGroupedConsumerUnitEconomies from "./services/getGroupedConsumerUnitEconomies";
 
+import cors from "cors";
+
 const app: Express = express();
+
+app.use(cors({
+    origin: "*"
+}));
 
 /**
  - Endpoint que retorna a economia agrupada por unidade consumidora
