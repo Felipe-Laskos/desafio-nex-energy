@@ -1,47 +1,50 @@
-import { useConsumerUnits } from "../hooks/useConsumerUnits";
+import { ConsumerUnitEconomy } from "../hooks/useConsumerUnits";
+import TableTd from "./TableTd";
+import TableTh from "./TableTh";
 
+interface EconomiesPerUnitProps {
+    data: ConsumerUnitEconomy[],
+    totalPages: number,
+    isLoading: boolean,
+    error: Error | null,
+    page: number,
+    setPage: (page: number) => void
+}
 
-function EconomiesPerUnit() {
-    const {data, totalPages, isLoading, error, page, setPage} = useConsumerUnits();
-
-    if(isLoading) return <p>Carregando...</p>
-    if(error) return <p>{error.message}</p>
-
-    console.log(error)
-
+function EconomiesPerUnit(props: EconomiesPerUnitProps) {
     return (
-        <div className="bg-zinc-900 w-full min-h-100">
+        <div className="bg-zinc-900 w-full min-h-4/5 rounded-b-xl my-4">
             <table className="w-full border-collapse text-sm">
                 <thead>
                     <tr className="bg-neutral-800">
-                        <th className="p-4 py-3 pl-8 text-left text-neutral-300 text-xl last:rounded-tr-xl first:rounded-tl-xl">Unidade Consumidora</th>
-                        <th className="p-4 py-3 pl-8 text-left text-neutral-300 text-xl last:rounded-tr-xl first:rounded-tl-xl">Porcentagem de Economia</th>
+                        <TableTh>Unidade Consumidora</TableTh>
+                        <TableTh>Porcentagem de Economia</TableTh>
                     </tr>
                 </thead>
-                <tbody className="bg-zinc-900">                    
-                    {data.map((item: { consumer_unit: string; economy_percentage: number }) => (
-                        <tr key={item.consumer_unit} >
-                            <td className="p-4 py-3 pl-8 text-left text-neutral-400 text-base">{item.consumer_unit}</td>
-                            <td className="p-4 py-3 pl-8 text-left text-neutral-400 text-base">{item.economy_percentage.toFixed(2)}%</td>
-                        </tr>
-                    ))}
+                <tbody className="bg-zinc-900">
+                    {
+                        props.isLoading ? (
+                            <tr>
+                                <TableTd>Carregando ...</TableTd>
+                            </tr>
+                        ): props.data.map((item: ConsumerUnitEconomy) => (
+                            <tr key={item.consumer_unit} >
+                                <TableTd>{item.consumer_unit}</TableTd>
+                                <TableTd>{item.economy_percentage.toFixed(2)}%</TableTd>
+                            </tr>
+                        ))
+                    }
+                    {
+                        props.error && (
+                            <tr>
+                                <td className="p-4 py-3 pl-8 text-left text-red-500 text-base">{props.error.message}</td>
+                            </tr>
+                        )
+                    }                    
                 </tbody>
             </table>
 
-            <button
-          className="bg-gray-700 text-white px-4 py-2 rounded disabled:opacity-50"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          Anterior
-        </button>
-        <span className="text-white text-lg">Página {page} de {totalPages}</span>
-        <button
-          className="bg-gray-700 text-white px-4 py-2 rounded disabled:opacity-50"
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-        >          Próxima
-        </button>
+
         </div>
     );
 }
