@@ -48,6 +48,6 @@ app.get("/consumer-unit-economies", async (req: Request, res: Response) => {
 
 // Inicia o servidor Nodejs na porta 8080, e utiliza a função loadCsvToDatabase para carregar os dados do Csv no banco de dados
 app.listen(8080, () => {
-    console.log("Server runnin on port 8080");
+    console.log("Server running on port 8080");
     loadCsvToDatabase();
 });
