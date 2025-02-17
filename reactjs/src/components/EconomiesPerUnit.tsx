@@ -11,9 +11,12 @@ interface EconomiesPerUnitProps {
     setPage: (page: number) => void
 }
 
+/**
+ * Componente EconomiesPerUnit encarregado de gerar a tabela que mostra as economias agrupadas por unidade consumidora
+ */
 function EconomiesPerUnit(props: EconomiesPerUnitProps) {
     return (
-        <div className="bg-zinc-900 w-full min-h-4/5 rounded-b-xl my-4">
+        <div className="bg-zinc-900 w-full min-h-4/5 rounded-b-xl grow-2">
             <table className="w-full border-collapse text-sm">
                 <thead>
                     <tr className="bg-neutral-800">
@@ -43,8 +46,6 @@ function EconomiesPerUnit(props: EconomiesPerUnitProps) {
                     }                    
                 </tbody>
             </table>
-
-
         </div>
     );
 }
